@@ -2,9 +2,8 @@ Flower flower1, flower2;
 int screenSelector, colorSelector, light, lightCount, randX, randY;
 float strokeTime;
 boolean isBeginning, canDraw, flowerO, flowerT, flowerSaved, calaveraSaved, canSaveCalavera, canSaveOfrenda;
-PImage sugarSkull;
+PImage sugarSkull, title;
 int[] lightSize = { 50, 75, 100, 30 }; 
-//Image eyeImage = new Image("calavera2.png", new PImage());
 
 void setup(){
   size(2500, 1500);
@@ -23,34 +22,49 @@ void setup(){
   flower1 = new Flower(6, mouseX, mouseY); //12 petal flower -- 4 = 8 petals && 5 = 5petals && 7b = 7 petals && 8 = 16 petals
   flower2 = new Flower(2, mouseX, mouseY); //4 petal flower -- 9 = 9 petals && 10 = 20 petals && 11 = 11petals && 13 = 13 petals && 15 = 15 petals4
   sugarSkull = loadImage("calavera2.png");
+  title = loadImage("ofrendaTitle.png");
 }
 void draw() {
   if (isBeginning == true) {
-    if(millis() < 1250) {
+    if(millis() < 1000) {
       background(0);
       tint(255, 65, 5);
       image(sugarSkull, width/2-162, height/2-299);
-    } else if (millis() < 2500) {
+    } else if (millis() < 2000) {
       background(0);
       tint(45, 155, 75);
       image(sugarSkull, width/2-162, height/2-299);
-    } else if (millis() < 3750) {
+    } else if (millis() < 3000) {
+      background(0);
+      tint(255, 155, 0);
+      image(sugarSkull, width/2-162, height/2-299);
+    } else if (millis() < 4000){
+       background(0);
+      tint(255, 65, 5);
+      image(sugarSkull, width/2-162, height/2-299);
+    } else if (millis() < 5000) {
+      background(0);
+      tint(45, 155, 75);
+      image(sugarSkull, width/2-162, height/2-299);
+    } else if (millis() < 6000) {
       background(0);
       tint(255, 155, 0);
       image(sugarSkull, width/2-162, height/2-299);
     } else {
       background(0);
       noStroke();
-      textSize(200);  
+      image(title, width/2-939, height/2-750, 1878, 1502);
       fill(255);
-      text("Ofrenda", width/2-320, height/2); 
-      ellipse(width/2+100, height/2+200, 150, 150);
-      if((dist(width/2+100, height/2+200, mouseX, mouseY) < 150/2) && mousePressed) {
-        screenSelector = 1;
+      ellipse(width/2, height/2+400, 100, 100);
+      if(dist(width/2, height/2+400, mouseX, mouseY) < 100/2) {
         fill(0);
-        //fill(255, 248, 216);
-        rect(0, 0, width, height);
-        isBeginning = false;
+        ellipse(width/2, height/2+400, 100, 100);
+        if(mousePressed){
+          screenSelector = 1;
+          fill(0);
+          rect(0, 0, width, height);
+          isBeginning = false;
+        }
       }  
     }
   }
@@ -88,13 +102,22 @@ void ofrendaScreen() {
     //change flower from 12 pedals to 6 pedals
     fill(0);
     rect(width-100, 100, 70, 150);
+    fill(0);
+    rect(width-100, 300, 70, 150);
     
     if ((mouseX > width-100) && (mouseY > 100) && (mouseX < width) && (mouseY < 250) && (mousePressed)) {
       //change flower petals
-      flowerT = !flowerT;
-      flowerO = !flowerO;
+      flowerT = true;
+      flowerO = false;
       fill(255, 60, 60);
       rect(width-100, 100, 70, 150);
+    }
+    if ((mouseX > width-100) && (mouseY > 300) && (mouseX < width) && (mouseY < 450) && (mousePressed)) {
+      //change flower petals
+      flowerT = false;
+      flowerO = true;
+      fill(255, 60, 60);
+      rect(width-100, 300, 70, 150);
     }
     
     //clear background (keep right panel)
@@ -110,8 +133,8 @@ void ofrendaScreen() {
       rect(width-250, 0, 250, height);
       fill(0);
       rect(width-100, 0, 70, 50);
-      fill(0);
       rect(width-100, 100, 70, 150);
+      rect(width-100, 300, 70, 150);
     }
     
     //save background and go to calaveras screen
@@ -180,10 +203,13 @@ void lightScreen() {
   fill(255);
   rect(width-250, 0, 250, height);
   
+  fill(255, 155, 0);
+  rect(width-175, height-200, 150, 175);
+  
   //capture your creation! (w/ flowers, calaveras, and lights)
-  if ((mousePressed) && (mouseX > width-175) && (mouseY > height-200) && (mouseX < width) && (mouseY < height) && (canSaveOfrenda == true)) {
+  if ((mousePressed) && (mouseX > width-175) && (mouseY > height-200) && (mouseX < width-25) && (mouseY < height-25) && (canSaveOfrenda == true)) {
       PImage ofrenda  = get(0, 0, width-250, height);
-      ofrenda.save("testOfrenda.jpg");
+      ofrenda.save("DigitalOfrenda.jpg");
       screenSelector = 4;
   }
 }
@@ -191,6 +217,7 @@ void lightScreen() {
 void infoScreen() {
    background(0);
    fill(255, 255, 90);
+   textSize(180);
    text("Your ofrenda has been saved!", 100, height/2-300, width-100, height/2);
 }
 
@@ -254,26 +281,3 @@ class Flower {
     }
   }
 }
-
-//class Image {
-//  String path;
-//  PImage image;
-  
-//  public Image (String imagePath, PImage anImage) {
-//    this.path = imagePath;
-//    this.image = anImage;
-//  }
-  
-//  void imageSetup(String imagePath) {
-//      image = loadImage(imagePath);
-//  }
-  
-//  void imageDraw(){
-//    if((mouseX > 0) && (mouseY > 0) && (mouseX < width - 325) && (mouseY < height) && (mousePressed)) {
-//      pushMatrix();
-//      translate(mouseX-162, mouseY-229);
-//      image(this.image, 0, 0);
-//      popMatrix();
-//    }
-//  }
-//}
